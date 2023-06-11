@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Serializer.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makacem <makacem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 16:11:01 by makacem           #+#    #+#             */
-/*   Updated: 2023/06/11 11:51:30 by makacem          ###   ########.fr       */
+/*   Created: 2023/06/11 11:49:55 by makacem           #+#    #+#             */
+/*   Updated: 2023/06/11 11:55:53 by makacem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
-#include<limits>
+#include "Serializer.hpp"
 
-int main(int argc, char **argv)
+uintptr_t Serializer::serialize(Data *ptr)
 {
-    (void)argc;
-    
-    if(argv[1])
-        ScalarConverter::convert(argv[1]);
-    
-    return 0;
+    return (reinterpret_cast<uintptr_t>(ptr));
+}
+
+Data *Serializer::deserialize(uintptr_t raw)
+{
+    return (reinterpret_cast<Data *>(raw));
 }

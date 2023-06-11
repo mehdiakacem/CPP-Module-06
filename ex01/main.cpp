@@ -5,20 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: makacem <makacem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 16:11:01 by makacem           #+#    #+#             */
-/*   Updated: 2023/06/11 11:51:30 by makacem          ###   ########.fr       */
+/*   Created: 2023/06/11 11:57:03 by makacem           #+#    #+#             */
+/*   Updated: 2023/06/11 12:48:17 by makacem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
-#include<limits>
+#include "Serializer.hpp"
 
-int main(int argc, char **argv)
+int main()
 {
-    (void)argc;
-    
-    if(argv[1])
-        ScalarConverter::convert(argv[1]);
-    
-    return 0;
+    Data *mehdi = new Data;
+    uintptr_t temp;
+    Data *second;
+
+    mehdi->name = "mehdi";
+    mehdi->nbr = 20;
+
+    temp = Serializer::serialize(mehdi);
+
+    second = Serializer::deserialize(temp);
+
+    std::cout << second->name << std::endl;
+    std::cout << second->nbr << std::endl;
+
+    delete mehdi;
 }

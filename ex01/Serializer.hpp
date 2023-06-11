@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Serializer.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makacem <makacem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 16:11:01 by makacem           #+#    #+#             */
-/*   Updated: 2023/06/11 11:51:30 by makacem          ###   ########.fr       */
+/*   Created: 2023/06/11 10:32:47 by makacem           #+#    #+#             */
+/*   Updated: 2023/06/11 11:56:41 by makacem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
-#include<limits>
+#ifndef SERIALIZER_HPP
 
-int main(int argc, char **argv)
+#define SERIALIZER_HPP
+
+#include <iostream>
+
+struct Data
 {
-    (void)argc;
-    
-    if(argv[1])
-        ScalarConverter::convert(argv[1]);
-    
-    return 0;
-}
+    /* data */
+    int nbr;
+    std::string name;
+};
+
+
+class Serializer
+{
+public:
+    static uintptr_t serialize(Data *ptr);
+    static Data *deserialize(uintptr_t raw);
+};
+
+
+
+
+#endif
