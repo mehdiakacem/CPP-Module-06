@@ -6,7 +6,7 @@
 /*   By: makacem <makacem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 15:26:56 by makacem           #+#    #+#             */
-/*   Updated: 2023/06/11 08:51:34 by makacem          ###   ########.fr       */
+/*   Updated: 2023/06/11 10:08:31 by makacem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,54 @@ void    ScalarConverter::convert(std::string param)
 {    
     std::size_t found;
 
+    if (param == "-inff" || param == "+inff" || param == "nanf")
+    {
+        std::cout << "char: Impossible\n";
+        std::cout << "int: Impossible\n";
+        if (param == "-inff")
+        {
+            float num = std::numeric_limits<float>::infinity() * -1;
+            std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: " << static_cast<double>(num) << std::endl;
+        }
+        else if(param == "+inff")
+        {
+            float num = std::numeric_limits<float>::infinity();
+            std::cout << "float: +" << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: +" << static_cast<double>(num) << std::endl;
+        }
+        else if(param == "nanf")
+        {
+            float num = std::numeric_limits<float>::quiet_NaN();
+            std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: " << static_cast<double>(num) << std::endl;
+        }
+        return;
+    }
+    if (param == "-inf" || param == "+inf" || param == "nan")
+    {
+        std::cout << "char: Impossible\n";
+        std::cout << "int: Impossible\n";
+        if (param == "-inf")
+        {
+            double num = std::numeric_limits<double>::infinity() * -1;
+            std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: " << static_cast<double>(num) << std::endl;
+        }
+        else if(param == "+inf")
+        {
+            double num = std::numeric_limits<double>::infinity();
+            std::cout << "float: +" << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: +" << static_cast<double>(num) << std::endl;
+        }
+        else if(param == "nan")
+        {
+            double num = std::numeric_limits<double>::quiet_NaN();
+            std::cout << "float: " << static_cast<float>(num) << "f" << std::endl;
+            std::cout << "double: " << static_cast<double>(num) << std::endl;
+        }
+        return;
+    }
     //char
     if (param.length() == 3 && param.front() == 39 && param.back() == 39)
     {
@@ -30,50 +78,8 @@ void    ScalarConverter::convert(std::string param)
         std::cout << "double : " << static_cast<double>(c) << ".0" << std::endl;
         return;
     }
-    //float
 
-    if (param == "-inff" || param == "+inff" || param == "nanf")
-    {
-        std::cout << "char: impossible\n";
-        std::cout << "int: impossible\n";
-        if (param == "-inff")
-        {
-            std::cout << "float: -inff\n";
-            std::cout << "double: -inf\n";
-        }
-        else if(param == "+inff")
-        {
-            std::cout << "float: +inff\n";
-            std::cout << "double: +inf\n";
-        }
-        else if(param == "nanf")
-        {
-            std::cout << "float: nanf\n";
-            std::cout << "double: nan\n";
-        }
-        return;
-    }
-    if (param == "-inf" || param == "+inf" || param == "nan")
-    {
-        std::cout << "char: impossible\n";
-        std::cout << "int: impossible\n";
-        if (param == "-inf")
-        {
-            std::cout << "float: -inff\n";
-            std::cout << "double: -inf\n";
-        }
-        else if(param == "+inf")
-        {
-            std::cout << "float: +inff\n";
-            std::cout << "double: +inf\n";
-        }
-        else if(param == "nan")
-        {
-            std::cout << "float: nanf\n";
-            std::cout << "double: nan\n";
-        }
-        return;
-    }
+    //float
     found = param.find('f');
     if (param.back() == 'f' && found != std::string::npos)
     {
@@ -97,12 +103,17 @@ void    ScalarConverter::convert(std::string param)
                     throw std::invalid_argument("Invalid argument.");
                 i++;
             }
-            float num = std::atof(param.c_str());
-            if (!isprint(num))
+            float num = std::stof(param);
+            if (num > 127 || num < 0)
+                std::cout << "char: Impossible\n";
+            else if (!isprint(num))
                 std::cout << "char: Non displayble\n";
             else 
                 std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
-            std::cout << "int: " << static_cast<int>(num) << std::endl;
+            if (num > std::numeric_limits<int>::max() || num < std::numeric_limits<int>::min())
+                std::cout << "int: Impossible\n";
+            else
+                std::cout << "int: " << static_cast<int>(num) << std::endl;
             size_t found = param.find('.');
             if (found != std::string::npos && param.back() == '0')
             {
@@ -118,7 +129,10 @@ void    ScalarConverter::convert(std::string param)
         }
         catch(const std::exception& e)
         {
-            std::cerr << "Invalid parameter.\n";
+            std::cout << "char: Impossible.\n";
+            std::cout << "int: Impossible.\n";
+            std::cout << "float: Impossible.\n";
+            std::cout << "double: Impossible.\n";
             return ;
         }
     }
@@ -145,11 +159,16 @@ void    ScalarConverter::convert(std::string param)
                 i++;
             }
             double num = std::stod(param);
-            if (!isprint(num) || num == ' ')
+            if (num > 127 || num < 0)
+                std::cout << "char: Impossible\n";
+            else if (!isprint(num) || num == ' ')
                 std::cout << "char: Non displayble\n";
             else
                 std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
-            std::cout << "int: " << static_cast<int>(num) << std::endl;
+            if (num > std::numeric_limits<int>::max() || num < std::numeric_limits<int>::min())
+                std::cout << "int: Impossible\n";
+            else
+                std::cout << "int: " << static_cast<int>(num) << std::endl;
             if (param.back() == '0')
             {
                 std::cout << "float: "<< static_cast<float>(num) << ".0f" << std::endl;
@@ -164,7 +183,10 @@ void    ScalarConverter::convert(std::string param)
         }
         catch(const std::exception& e)
         {
-            std::cerr << "Invalid parameter.\n";
+            std::cout << "char: Impossible.\n";
+            std::cout << "int: Impossible.\n";
+            std::cout << "float: Impossible.\n";
+            std::cout << "double: Impossible.\n";
             return ;
         }
     }
@@ -185,18 +207,26 @@ void    ScalarConverter::convert(std::string param)
             num = param.front();
         else
             num = std::stoi(param);
-        if (!isprint(num) || num == ' ')
+        if (num > 127 || num < 0)
+            std::cout << "char: Impossible\n";
+        else if (!isprint(num) || num == ' ')
             std::cout << "char: Non displayble\n";
         else 
             std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
-        std::cout << "int: " << static_cast<float>(num) << std::endl;
+        std::cout << "int: " << static_cast<int>(num) << std::endl;
         std::cout << "float: " << static_cast<float>(num) << ".0f" << std::endl;
         std::cout << "double: " << static_cast<double>(num) << ".0" << std::endl;
 
     }
     catch(const std::exception& e)
     {
-        std::cerr << "Invalid parameter.\n";
+        std::cout << "char: Impossible.\n";
+        std::cout << "int: Impossible.\n";
+        std::cout << "float: Impossible.\n";
+        std::cout << "double: Impossible.\n";
         return ;
     }
+    
+
+
 }
