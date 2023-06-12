@@ -6,7 +6,7 @@
 /*   By: makacem <makacem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:32:47 by makacem           #+#    #+#             */
-/*   Updated: 2023/06/11 11:56:41 by makacem          ###   ########.fr       */
+/*   Updated: 2023/06/12 18:29:49 by makacem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ struct Data
 
 class Serializer
 {
-public:
-    static uintptr_t serialize(Data *ptr);
-    static Data *deserialize(uintptr_t raw);
+    private:
+        Serializer();
+    public:
+        static uintptr_t serialize(Data *ptr);
+        static Data *deserialize(uintptr_t raw);
 };
 
 
